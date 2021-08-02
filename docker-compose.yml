@@ -1,0 +1,66 @@
+version: '3'
+
+services:
+    dbtest:
+        container_name: dbtest
+#        hostname: dbtest
+        image: mysql:8
+        command: --init-file /data/application/init.sql
+        restart: always
+        ports:
+            - ${DB_PORT}:3306
+        volumes:
+            - data-test:/var/lib/mysql
+            - ./docker/conf/mysql:/etc/mysql
+            - ./docker/init.sql:/data/application/init.sql
+            - ./docker/supervisor:/etc/supervisor
+        environment:
+            MYSQL_ROOT_PASSWORD: W7zXgR0LHp4nV86T
+            MYSQL_DATABASE: lar_test
+            MYSQL_USER: bot
+            MYSQL_PASSWORD: 1caeZprqnWf6Q7Nb
+        logging:
+            options:
+                max-size: 10m
+
+    apache-test:
+        build:
+            context: ./
+            dockerfile: docker/Dockerfile
+        container_name: apache-test
+        volumes:
+            - .:/var/www/
+            - ./public:/var/www/html
+            #      - ./docker/apache2/apache2.conf:/etc/apache2/apache2.conf
+            - ./docker/php/php.ini:/usr/local/etc/php/php.ini
+        environment:
+            XDEBUG_CONFIG: "remote_host=192.168.0.107 remote_enable=1"
+            PHP_IDE_CONFIG: "serverName=Laravel-docker"
+            DB_PORT: 3306
+            DB_HOST: dbtest
+            REDIS_PORT: 6379
+            REDIS_HOST: redis-tes
+
+        restart: always
+        ports:
+            - ${APP_PORT}:80
+            - 8084:8084
+        expose:
+            - 9000
+            - 8084
+        depends_on:
+            - dbtest
+        links:
+            - redis-test
+
+    redis-test:
+        image: redis:3.0
+        volumes:
+            - ./docker/redis:/data
+        ports:
+            - ${REDIS_PORT}:6379
+        restart: always
+
+
+volumes:
+    data-test:
