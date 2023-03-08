@@ -16,12 +16,12 @@ a2enmod rewrite && service apache2 reload
 apt-get update
 apt-get install -y git
 apt-get install -y zip
-#docker-php-ext-install mysqli pdo_mysql bcmath mbstring
+docker-php-ext-install mysqli pdo_mysql bcmath mbstring
 
-#pecl install xdebug
-#docker-php-ext-enable xdebug
+pecl install xdebug
+docker-php-ext-enable xdebug
 
-#service apache2 restart
+service apache2 restart
 
 
 # Install dependencies
@@ -38,12 +38,12 @@ apt-get install -y zip
 
 # Configure SSH for xdebug
 
-#apt-get install -y openssh-server
+apt-get install -y openssh-server
 
 #echo "root:T653@2eyY@7er6@upX4" | chpasswd
 #echo "StrictHostKeyChecking=no" >> /etc/ssh/ssh_config
 #echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
-#service ssh start
+service ssh start
 #
 #echo "Success"
 #

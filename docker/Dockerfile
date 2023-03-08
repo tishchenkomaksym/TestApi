@@ -1,6 +1,8 @@
 FROM php:7.4-apache
 
 #ADD . /var/www
+COPY docker/apache2/host.conf /etc/apache2/sites-available/000-default.conf
+
 RUN apt-get update && apt-get install -y \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
@@ -59,4 +61,4 @@ RUN apt-get update && apt-get install -y \
 #RUN bash /var/www/docker/deploy.sh
 
 
-WORKDIR /var/www
+WORKDIR /var/www/html

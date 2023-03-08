@@ -37,6 +37,8 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
+
+//        parent::report($exception);
         $this->reportable(function (Throwable $e) {
             //
         });
@@ -44,29 +46,29 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $exception)
     {
-        $rendered = parent::render($request, $exception);
+        return parent::render($request, $exception);
 
-        if ($exception instanceof ValidationException) {
-            $json = [
-                'error' => $exception->validator->errors(),
-                'status_code' => $rendered->getStatusCode()
-            ];
-        } elseif ($exception instanceof AuthorizationException) {
-            $json = [
-                'error' => 'You are not allowed to do this action.',
-                'status_code' => 403
-            ];
-        }
-        else {
-            // Default to vague error to avoid revealing sensitive information
-            $json = [
-                'error' => (app()->environment() !== 'production')
-                    ? $exception->getMessage()
-                    : 'An error has occurred.',
-                'status_code' => $exception->getCode()
-            ];
-        }
-
-        return response()->json($json, $rendered->getStatusCode());
+//        if ($exception instanceof ValidationException) {
+//            $json = [
+//                'error' => $exception->validator->errors(),
+//                'status_code' => $rendered->getStatusCode()
+//            ];
+//        } elseif ($exception instanceof AuthorizationException) {
+//            $json = [
+//                'error' => 'You are not allowed to do this action.',
+//                'status_code' => 403
+//            ];
+//        }
+//        else {
+//            // Default to vague error to avoid revealing sensitive information
+//            $json = [
+//                'error' => (app()->environment() !== 'production')
+//                    ? $exception->getMessage()
+//                    : 'An error has occurred.',
+//                'status_code' => $exception->getCode()
+//            ];
+//        }
+//
+//        return response()->json($json, $rendered->getStatusCode());
     }
 }

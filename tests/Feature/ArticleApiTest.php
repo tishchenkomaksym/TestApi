@@ -100,8 +100,7 @@ class ArticleApiTest extends TestCase
         Author::factory()->create();
         $data = [
             'title' => $this->faker->word,
-            'body' => $this->faker->text(99),
-            'test' => 'test'
+            'body' => $this->faker->text(99)
         ];
 
         $this->post(route('api.create.article'), $data)
@@ -146,4 +145,5 @@ class ArticleApiTest extends TestCase
             ->assertJson(['success' => 'deleted']);
         $this->assertDatabaseMissing('articles', $article->toArray());
     }
+
 }

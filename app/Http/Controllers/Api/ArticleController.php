@@ -17,7 +17,7 @@ class ArticleController extends Controller
 
     private ArticleService $articleService;
 
-    public function __construct( ArticleService $articleService)
+    public function __construct(ArticleService $articleService)
     {
         $this->articleService = $articleService;
     }
@@ -29,6 +29,7 @@ class ArticleController extends Controller
     public function index(): JsonResponse
     {
         $articles = Article::paginate(5);
+
         return response()->json($articles, Response::HTTP_OK);
     }
 
